@@ -1,0 +1,34 @@
+---
+import ForumThreadPage from '../../../../components/ForumThreadPage.astro';
+import { forumThreads, getForumThread } from '../../../../data/forums';
+import { localeCodes, defaultLocale, isLocaleCode } from '../../../../data/i18n/locales';
+
+export function getStaticPaths() {
+	const paths: {
+		params: { lang: string; slug: string };
+		props: { locale: (typeof localeCodes)[number]; thread: (typeof forumThreads)[number] };
+	}[] = [];
+
+	for (const lang of localeCodes) {
+		if (lang === defaultLocale) continue;
+		for (const thread of forumThreads) {
+			paths.push({
+				params: { lang, slug: thread.slug },
+				props: { locale: lang, thread },
+			});
+		}
+	}
+
+	return paths;
+}
+
+const { locale, thread } = Astro.props;
+
+if (!isLocaleCode(Astro.params.lang ?? '')) {
+	return Astro.redirect('/forums/');
+}
+
+const live = getForumThread(thread.slug, locale) ?? thread;
+---
+
+<ForumThreadPage locale={locale} thread={live} />

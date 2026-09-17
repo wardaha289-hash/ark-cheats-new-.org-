@@ -1,0 +1,47 @@
+import { siteConfig } from './site';
+
+/** Screenshots used across product pages — simple ark cheats keyword alts. */
+export const arkImages = {
+	hero: '/images/ark-cheats-hero-full.jpg',
+	espWallhack: '/images/ark-cheats-wallhack.webp',
+	aimbotCombat: '/images/ark-cheats-aimbot.webp',
+	aimbotSkeleton: '/images/ark-cheats-aimbot-view.webp',
+	playerEsp: '/images/ark-cheats-wallhack.webp',
+	cheatsCombat: '/images/ark-cheats-aimbot-view.webp',
+	logo: siteConfig.logo,
+	cover: '/images/ark-cheats-aimbot-view.webp',
+	loadoutBuilder: '/images/ark-cheats-wallhack.webp',
+	squadFight: '/images/ark-cheats-aimbot-view.webp',
+	cheatsPackage: '/images/ark-cheats-wallhack.webp',
+	headerArt: '/images/ark-cheats-aimbot-view.webp',
+	battleRoyaleCombat: '/images/ark-cheats-aimbot.webp',
+	extractFight: '/images/ark-cheats-aimbot.webp',
+	rebootFight: '/images/ark-cheats-aimbot.webp',
+	dinoRunCombat: '/images/ark-cheats-wallhack.webp',
+	dinoRunMode: '/images/ark-cheats-wallhack.webp',
+	battleRoyaleIsland: '/images/ark-cheats-wallhack.webp',
+	sessionMap: '/images/ark-cheats-wallhack.webp',
+	product: [
+		{ src: '/images/ark-cheats-wallhack.webp', alt: 'Player ESP boxes in ARK: Survival Ascended' },
+		{ src: '/images/ark-cheats-wallhack.webp', alt: 'Dino ESP wallhack for wild creatures' },
+		{ src: '/images/ark-cheats-aimbot.webp', alt: 'Aimbot overlay for ARK PvP combat' },
+		{ src: '/images/ark-cheats-aimbot-view.webp', alt: 'Aimbot menu and FOV settings' },
+		{ src: '/images/ark-cheats-wallhack.webp', alt: 'Item ESP markers for loot and resources' },
+		{ src: '/images/ark-cheats-aimbot.webp', alt: 'No recoil and rapid fire combat tools' },
+	],
+	gallery: [
+		{ src: '/images/ark-cheats-wallhack.webp', alt: 'Player ESP overlay showing enemy distance', featured: true },
+		{ src: '/images/ark-cheats-wallhack.webp', alt: 'Dino ESP view through terrain' },
+		{ src: '/images/ark-cheats-aimbot.webp', alt: 'Aimbot FOV ring in PvP combat' },
+		{ src: '/images/ark-cheats-aimbot-view.webp', alt: 'Crosshair and aimbot settings menu' },
+		{ src: '/images/ark-cheats-wallhack.webp', alt: 'Item ESP and dino filter controls' },
+	],
+	sitemap: [
+		{ src: '/images/ark-cheats-wallhack.webp', title: '', caption: '' },
+		{ src: '/images/ark-cheats-wallhack.webp', title: '', caption: '' },
+		{ src: '/images/ark-cheats-aimbot.webp', title: '', caption: '' },
+		{ src: '/images/ark-cheats-aimbot-view.webp', title: '', caption: '' },
+		{ src: '/images/ark-cheats-aimbot.webp', title: '', caption: '' },
+		{ src: '/images/ark-cheats-hero-full.jpg', title: '', caption: '' },
+	],
+} as const;

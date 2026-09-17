@@ -1,0 +1,83 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import { getForumCategoryLabel, getForumsBasePath, type ForumThread } from '../data/forums';
+import { siteConfig } from '../data/site';
+import { seoPageTitle } from '../data/site-core';
+import { seoDescription } from '../data/brand';
+import { getLocalizedPath } from '../data/i18n/routing';
+import type { LocaleCode } from '../data/i18n/locales';
+import { arkImages } from '../data/ark';
+import { getT } from '../i18n/server';
+
+interface Props {
+	locale: LocaleCode;
+	thread: ForumThread;
+}
+
+const { locale, thread } = Astro.props;
+const t = getT(locale);
+const forumsPath = getForumsBasePath(locale);
+const title = seoPageTitle(`${thread.title} | ${siteConfig.name}`);
+const description = seoDescription(thread.excerpt);
+const canonicalPath = `${forumsPath}${thread.slug}/`;
+
+function localizeParagraphHtml(html: string): string {
+	return html.replace(/\{checkout\}/g, siteConfig.checkoutUrl);
+}
+---
+
+<PageLayout
+	title={title}
+	description={description}
+	canonicalPath={canonicalPath}
+	heading={thread.title}
+	intro={thread.excerpt}
+	eyebrow={getForumCategoryLabel(thread.category, locale)}
+	heroImage={arkImages.aimbotSkeleton}
+	heroAlt={thread.title}
+	gallery={[]}
+	showGallery={false}
+	locale={locale}
+	ctaPrimary={{ href: siteConfig.checkoutUrl, label: t('forums.getAccess') }}
+	ctaSecondary={{ href: forumsPath, label: t('forums.allForums') }}
+>
+	{
+		thread.sections.map((section) => (
+			<section class="card-panel">
+				<h2>{section.h2}</h2>
+				{section.paragraphs.map((p) => (
+					<p set:html={localizeParagraphHtml(p)} />
+				))}
+				{section.list && (
+					<ul>
+						{section.list.map((item) => (
+							<li>{item}</li>
+						))}
+					</ul>
+				)}
+			</section>
+		))
+	}
+
+	<section class="card-panel forums-thread__back">
+		<p>
+			<a href={forumsPath}>{t('forums.backTo', { label: t('nav.forums') })}</a>
+		</p>
+	</section>
+</PageLayout>
+
+<style>
+	.forums-thread__back {
+		margin-top: 0.5rem;
+	}
+
+	.forums-thread__back a {
+		color: var(--magenta-soft);
+		font-weight: 600;
+		text-decoration: none;
+	}
+
+	.forums-thread__back a:hover {
+		color: var(--ink);
+	}
+</style>

@@ -1,0 +1,192 @@
+---
+import { forumCategoryLabels, forumThreads, forumsBasePath, getForumThreadPath } from '../data/forums';
+import { forumsLabel } from '../data/site';
+
+const categoryIcons: Record<string, string> = {
+	features:
+		'M4 6h16M4 12h10M4 18h16M8 6v12',
+	setup:
+		'M12 8v4l3 2M21 12a9 9 0 11-18 0 9 9 0 0118 0z',
+	instructions:
+		'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2',
+};
+---
+
+<section class="home-forums shell" aria-labelledby="home-forums-title">
+	<header class="home-forums__head">
+		<p class="home-forums__eyebrow">{forumsLabel}</p>
+		<h2 id="home-forums-title">Setup, Features &amp; Configuration</h2>
+	</header>
+
+	<div class="home-forums__grid">
+		{
+			forumThreads.map((thread) => (
+				<article class="home-forums__card">
+					<div class="home-forums__card-top">
+						<span class="home-forums__cat-icon" aria-hidden="true">
+							<svg viewBox="0 0 24 24" fill="none">
+								<path
+									d={categoryIcons[thread.category]}
+									stroke="currentColor"
+									stroke-width="1.6"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+								/>
+							</svg>
+						</span>
+						<span class="home-forums__cat">{forumCategoryLabels[thread.category]}</span>
+					</div>
+					<h3>
+						<a href={getForumThreadPath(thread.slug)}>{thread.title}</a>
+					</h3>
+					<p>{thread.excerpt}</p>
+					<a class="home-forums__read" href={getForumThreadPath(thread.slug)}>
+						Read thread →
+					</a>
+				</article>
+			))
+		}
+	</div>
+
+	<p class="home-forums__all">
+		<a href={forumsBasePath}>View all forum threads →</a>
+	</p>
+</section>
+
+<style>
+	.home-forums {
+		padding-block: clamp(2rem, 4vw, 2.75rem);
+	}
+
+	.home-forums__head {
+		margin-bottom: 1.25rem;
+	}
+
+	.home-forums__eyebrow {
+		margin: 0 0 0.35rem;
+		color: var(--magenta-soft);
+		font-size: 0.72rem;
+		font-weight: 700;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+	}
+
+	.home-forums__head h2 {
+		margin: 0;
+		font-family: var(--font-display);
+		font-size: clamp(1.5rem, 3.5vw, 2rem);
+		line-height: 1.15;
+		letter-spacing: -0.03em;
+	}
+
+	.home-forums__grid {
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: 1rem;
+	}
+
+	.home-forums__card {
+		display: flex;
+		flex-direction: column;
+		gap: 0.6rem;
+		min-height: 100%;
+		padding: 1.05rem 1.1rem;
+		border: 1px solid var(--line);
+		border-radius: var(--radius-md, 0.75rem);
+		background: var(--bg-elevated);
+		transition: border-color 0.2s ease;
+	}
+
+	.home-forums__card:hover {
+		border-color: color-mix(in srgb, var(--magenta) 35%, var(--line));
+	}
+
+	.home-forums__card-top {
+		display: flex;
+		align-items: center;
+		gap: 0.45rem;
+	}
+
+	.home-forums__cat-icon {
+		display: inline-flex;
+		width: 1.25rem;
+		height: 1.25rem;
+		color: var(--magenta-soft);
+	}
+
+	.home-forums__cat-icon svg {
+		width: 100%;
+		height: 100%;
+	}
+
+	.home-forums__cat {
+		color: var(--ink-faint);
+		font-size: 0.68rem;
+		font-weight: 700;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+	}
+
+	.home-forums__card h3 {
+		margin: 0;
+		font-size: 0.98rem;
+		line-height: 1.35;
+		letter-spacing: -0.02em;
+	}
+
+	.home-forums__card h3 a {
+		color: var(--ink);
+		text-decoration: none;
+	}
+
+	.home-forums__card h3 a:hover {
+		color: var(--magenta-soft);
+	}
+
+	.home-forums__card p {
+		flex: 1;
+		margin: 0;
+		color: var(--ink-muted);
+		font-size: 0.86rem;
+		line-height: 1.5;
+	}
+
+	.home-forums__read {
+		color: var(--magenta-soft);
+		font-size: 0.82rem;
+		font-weight: 600;
+		text-decoration: none;
+	}
+
+	.home-forums__read:hover {
+		color: var(--ink);
+	}
+
+	.home-forums__all {
+		margin: 1.25rem 0 0;
+		text-align: center;
+	}
+
+	.home-forums__all a {
+		color: var(--magenta-soft);
+		font-size: 0.88rem;
+		font-weight: 600;
+		text-decoration: none;
+	}
+
+	.home-forums__all a:hover {
+		color: var(--ink);
+	}
+
+	@media (max-width: 1024px) {
+		.home-forums__grid {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
+	}
+
+	@media (max-width: 640px) {
+		.home-forums__grid {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>

@@ -1,0 +1,237 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navbar from './Navbar.astro';
+import SiteFooter from './SiteFooter.astro';
+import {
+	getForumCategoryLabel,
+	getForumThreads,
+	getForumsBasePath,
+	getForumThreadPath,
+} from '../data/forums';
+import { siteConfig } from '../data/site';
+import { brandSeo, seoPageTitle } from '../data/site-core';
+import { seoDescription } from '../data/brand';
+import { getLocalizedPath } from '../data/i18n/routing';
+import type { LocaleCode } from '../data/i18n/locales';
+import { getT } from '../i18n/server';
+
+interface Props {
+	locale: LocaleCode;
+}
+
+const { locale } = Astro.props;
+const t = getT(locale);
+const homeHref = getLocalizedPath('home', locale);
+const forumsPath = getForumsBasePath(locale);
+const threads = getForumThreads(locale);
+
+const pageTitle = seoPageTitle(brandSeo.forumsTitle ?? brandSeo.blogTitle.replace('Intel', 'Forums'));
+const pageDescription = seoDescription(
+	brandSeo.forumsDescription ??
+		'Community threads for Ark Cheats — setup, ESP, aimbot, profiles, and Easy Anti-Cheat notes for ARK: Survival Ascended.',
+);
+
+const categoryIcons: Record<string, string> = {
+	features:
+		'M4 6h16M4 12h10M4 18h16M8 6v12',
+	setup:
+		'M12 8v4l3 2M21 12a9 9 0 11-18 0 9 9 0 0118 0z',
+	instructions:
+		'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2',
+};
+---
+
+<Layout
+	title={pageTitle}
+	description={pageDescription}
+	canonicalPath={forumsPath}
+	locale={locale}
+	ogImage={siteConfig.defaultOgImage}
+	ogImageAlt="Ark Cheats forums — setup and configuration"
+	breadcrumbs={[{ label: t('nav.home'), href: homeHref }, { label: t('nav.forums') }]}
+>
+	<Navbar locale={locale} />
+	<main class="forums">
+		<div class="shell forums__inner">
+			<header class="forums__hero">
+				<p class="forums__eyebrow">{t('nav.forums')}</p>
+				<h1>{t('forums.h1')}</h1>
+				<p class="forums__intro">
+					{t('forums.intro', { brand: siteConfig.name })}
+				</p>
+			</header>
+
+			<div class="forums__grid">
+				{
+					threads.map((thread) => (
+						<article class="forums__card">
+							<div class="forums__card-top">
+								<span class="forums__cat-icon" aria-hidden="true">
+									<svg viewBox="0 0 24 24" fill="none">
+										<path
+											d={categoryIcons[thread.category]}
+											stroke="currentColor"
+											stroke-width="1.6"
+											stroke-linecap="round"
+											stroke-linejoin="round"
+										/>
+									</svg>
+								</span>
+								<span class="forums__cat">{getForumCategoryLabel(thread.category, locale)}</span>
+							</div>
+							<h2>
+								<a href={getForumThreadPath(thread.slug, locale)}>{thread.title}</a>
+							</h2>
+							<p>{thread.excerpt}</p>
+							<a class="forums__read" href={getForumThreadPath(thread.slug, locale)}>
+								{t('forums.readThread')}
+							</a>
+						</article>
+					))
+				}
+			</div>
+		</div>
+	</main>
+	<SiteFooter locale={locale} />
+</Layout>
+
+<style>
+	.forums {
+		padding: 2.5rem 0 4rem;
+	}
+
+	.forums__inner {
+		display: grid;
+		gap: 0;
+	}
+
+	.forums__hero {
+		margin-bottom: 2rem;
+	}
+
+	.forums__eyebrow {
+		margin: 0 0 0.5rem;
+		color: var(--magenta-soft);
+		font-weight: 700;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		font-size: 0.75rem;
+	}
+
+	.forums__hero h1 {
+		margin: 0 0 0.75rem;
+		font-family: var(--font-display);
+		font-size: clamp(1.75rem, 4vw, 2.35rem);
+		line-height: 1.12;
+		letter-spacing: -0.03em;
+	}
+
+	.forums__intro {
+		max-width: 42rem;
+		margin: 0;
+		color: var(--ink-muted);
+		font-size: 1rem;
+		line-height: 1.6;
+	}
+
+	.forums__grid {
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: 1rem;
+	}
+
+	.forums__card {
+		display: flex;
+		flex-direction: column;
+		gap: 0.65rem;
+		min-height: 100%;
+		padding: 1.1rem 1.15rem 1.15rem;
+		border: 1px solid var(--line);
+		border-radius: var(--radius-md, 0.75rem);
+		background: var(--bg-panel);
+		transition:
+			border-color 0.2s ease,
+			box-shadow 0.2s ease;
+	}
+
+	.forums__card:hover {
+		border-color: color-mix(in srgb, var(--magenta) 35%, var(--line));
+		box-shadow: 0 12px 32px rgba(0, 0, 0, 0.22);
+	}
+
+	.forums__card-top {
+		display: flex;
+		align-items: center;
+		gap: 0.45rem;
+	}
+
+	.forums__cat-icon {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 1.35rem;
+		height: 1.35rem;
+		color: var(--magenta-soft);
+	}
+
+	.forums__cat-icon svg {
+		width: 100%;
+		height: 100%;
+	}
+
+	.forums__cat {
+		color: var(--ink-faint);
+		font-size: 0.68rem;
+		font-weight: 700;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+	}
+
+	.forums__card h2 {
+		margin: 0;
+		font-size: 1.02rem;
+		line-height: 1.35;
+		letter-spacing: -0.02em;
+	}
+
+	.forums__card h2 a {
+		color: var(--ink);
+		text-decoration: none;
+	}
+
+	.forums__card h2 a:hover {
+		color: var(--magenta-soft);
+	}
+
+	.forums__card p {
+		flex: 1;
+		margin: 0;
+		color: var(--ink-muted);
+		font-size: 0.88rem;
+		line-height: 1.55;
+	}
+
+	.forums__read {
+		margin-top: 0.15rem;
+		color: var(--magenta-soft);
+		font-size: 0.82rem;
+		font-weight: 600;
+		text-decoration: none;
+	}
+
+	.forums__read:hover {
+		color: var(--ink);
+	}
+
+	@media (max-width: 1024px) {
+		.forums__grid {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
+	}
+
+	@media (max-width: 640px) {
+		.forums__grid {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>

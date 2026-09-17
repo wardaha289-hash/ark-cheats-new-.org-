@@ -1,0 +1,347 @@
+---
+const previewSrc = '/images/ark-cheats-wallhack-480w.webp';
+
+const categories = [
+	{
+		id: 'features',
+		title: 'Features',
+		hint: 'What is included',
+		tone: 'violet',
+		links: [
+			{ href: '/features/', label: 'All features' },
+			{ href: '/ark-esp/', label: 'Player ESP' },
+			{ href: '/ark-aimbot/', label: 'Aimbot' },
+			{ href: '/ark-radar-hack/', label: 'Item ESP' },
+		],
+	},
+	{
+		id: 'status',
+		title: 'Status',
+		hint: 'Before you play',
+		tone: 'violet',
+		links: [
+			{ href: '/updates/', label: 'Live status' },
+			{ href: '/ark-cheats/', label: 'Undetected' },
+			{ href: '/setup/', label: 'Setup' },
+			{ href: '/faq/', label: 'FAQ' },
+		],
+	},
+	{
+		id: 'store',
+		title: 'Store',
+		hint: 'Buy & plans',
+		tone: 'violet',
+		links: [
+			{ href: '/pricing/', label: 'Buy now' },
+			{ href: '/pricing/', label: 'Plans' },
+			{ href: '/reviews/', label: 'Reviews' },
+			{ href: '/ark-cheats/', label: 'Preview' },
+		],
+	},
+	{
+		id: 'help',
+		title: 'Help',
+		hint: 'Need a hand',
+		tone: 'violet',
+		links: [
+			{ href: '/support/', label: 'Support' },
+			{ href: '/setup/', label: 'Setup guide' },
+			{ href: '/forums/', label: 'Forums' },
+			{ href: '/faq/', label: 'FAQ' },
+		],
+	},
+];
+---
+
+<section class="home-about shell" aria-labelledby="home-about-title">
+	<div class="home-about__hero">
+		<div class="home-about__copy">
+			<p class="home-about__eyebrow">Guides</p>
+			<h2 id="home-about-title">Browse by category</h2>
+			<p class="home-about__lede">
+				Player ESP, dino ESP, item ESP, and aimbot in one Windows PC license — with Easy Anti-Cheat updates after
+				patches.
+			</p>
+			<p class="home-about__links">
+				Browse the <a href="/features/">Ark Cheats features</a>, <a href="/ark-esp/">player ESP guide</a>,
+				<a href="/ark-aimbot/">aimbot controls</a>, and <a href="/updates/">undetected status</a>.
+			</p>
+		</div>
+		<figure class="home-about__media">
+			<img
+				src={previewSrc}
+				alt="Player ESP wallhack preview in ARK: Survival Ascended"
+				width="480"
+				height="300"
+				loading="lazy"
+				decoding="async"
+			/>
+			<figcaption class="home-about__tag">Cheat preview</figcaption>
+		</figure>
+	</div>
+
+	<div class="home-about__cats">
+		{
+			categories.map((cat) => (
+				<nav class={`home-about__cat home-about__cat--${cat.tone}`} aria-label={cat.title}>
+					<header class="home-about__cat-head">
+						<h3>{cat.title}</h3>
+						<p>{cat.hint}</p>
+					</header>
+					<ul>
+						{cat.links.map((link) => (
+							<li>
+								<a href={link.href}>
+									<span>{link.label}</span>
+									<span class="home-about__cat-arrow" aria-hidden="true" />
+								</a>
+							</li>
+						))}
+					</ul>
+				</nav>
+			))
+		}
+	</div>
+</section>
+
+<style>
+	.home-about {
+		padding-block: clamp(2rem, 4vw, 2.75rem);
+		border-bottom: 1px solid var(--line-soft);
+		color: var(--ink-muted);
+		font-size: 0.9375rem;
+		line-height: 1.55;
+	}
+
+	.home-about__hero {
+		display: grid;
+		grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+		gap: clamp(1rem, 2.5vw, 1.5rem);
+		align-items: stretch;
+		margin-bottom: 1.35rem;
+		padding-bottom: 1.35rem;
+		border-bottom: 1px solid var(--line-soft);
+	}
+
+	.home-about__copy {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		gap: 0.55rem;
+		min-width: 0;
+		padding-left: 0.85rem;
+		border-left: 2px solid var(--magenta-soft);
+	}
+
+	.home-about__eyebrow {
+		margin: 0;
+		font-size: 0.75rem;
+		font-weight: 600;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		color: var(--magenta-soft);
+	}
+
+	.home-about__copy h2 {
+		margin: 0;
+		font-family: var(--font-display);
+		font-size: clamp(1.75rem, 3.5vw, 2.35rem);
+		font-weight: 800;
+		letter-spacing: -0.03em;
+		line-height: 1.08;
+		color: var(--ink);
+	}
+
+	.home-about__lede {
+		margin: 0;
+		max-width: 34rem;
+		font-size: 0.9375rem;
+		line-height: 1.6;
+		color: var(--ink-muted);
+	}
+
+	.home-about__links {
+		margin: 0.1rem 0 0;
+		max-width: 34rem;
+		font-size: 0.9rem;
+		line-height: 1.55;
+		color: var(--ink-muted);
+	}
+
+	.home-about__links a {
+		color: var(--magenta-soft);
+		font-weight: 600;
+		text-decoration: none;
+	}
+
+	.home-about__links a:hover {
+		color: var(--ink);
+	}
+
+	.home-about__media {
+		position: relative;
+		margin: 0;
+		min-height: clamp(10rem, 22vw, 14rem);
+		border: 1px solid var(--line);
+		border-radius: var(--radius-md, 0.75rem);
+		overflow: hidden;
+		background: var(--bg-panel);
+	}
+
+	.home-about__media img {
+		display: block;
+		width: 100%;
+		height: 100%;
+		min-height: inherit;
+		object-fit: cover;
+		object-position: center;
+	}
+
+	.home-about__tag {
+		position: absolute;
+		left: 0.7rem;
+		bottom: 0.7rem;
+		margin: 0;
+		padding: 0.28rem 0.6rem;
+		border-radius: 999px;
+		background: rgba(8, 9, 10, 0.78);
+		border: 1px solid color-mix(in srgb, #fff 12%, transparent);
+		font-size: 0.65rem;
+		font-weight: 700;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		color: var(--ink);
+	}
+
+	.home-about__cats {
+		display: grid;
+		grid-template-columns: repeat(4, minmax(0, 1fr));
+		gap: 0.65rem;
+		align-items: stretch;
+	}
+
+	.home-about__cat {
+		display: flex;
+		flex-direction: column;
+		min-height: 100%;
+		border: 1px solid var(--line);
+		border-radius: var(--radius-md);
+		background: var(--bg-panel);
+		overflow: hidden;
+		transition: border-color 0.2s ease;
+	}
+
+	.home-about__cat:hover {
+		border-color: color-mix(in srgb, var(--magenta) 28%, var(--line));
+	}
+
+	.home-about__cat-head {
+		padding: 0.95rem 1rem 0.8rem;
+		border-bottom: 1px solid var(--line-soft);
+		background: linear-gradient(
+			180deg,
+			color-mix(in srgb, var(--cat-tone) 16%, var(--bg-elevated)) 0%,
+			var(--bg-elevated) 100%
+		);
+	}
+
+	.home-about__cat--violet {
+		--cat-tone: var(--magenta-soft);
+	}
+
+	.home-about__cat--green {
+		--cat-tone: var(--ok);
+	}
+
+	.home-about__cat--blue {
+		--cat-tone: #5bb5ff;
+	}
+
+	.home-about__cat--amber {
+		--cat-tone: #f59e0b;
+	}
+
+	.home-about__cat-head h3 {
+		margin: 0;
+		font-family: var(--font-display);
+		font-size: clamp(1.35rem, 2vw, 1.65rem);
+		font-weight: 800;
+		letter-spacing: -0.03em;
+		line-height: 1;
+		color: var(--cat-tone);
+	}
+
+	.home-about__cat-head p {
+		margin: 0.3rem 0 0;
+		font-size: 0.75rem;
+		line-height: 1.35;
+		color: var(--ink-faint);
+	}
+
+	.home-about__cat ul {
+		margin: 0;
+		padding: 0.25rem 0;
+		list-style: none;
+		display: grid;
+		flex: 1;
+	}
+
+	.home-about__cat a {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 0.75rem;
+		min-height: var(--touch-min, 2.75rem);
+		padding: 0.7rem 1rem;
+		font-size: 0.875rem;
+		font-weight: 500;
+		color: var(--ink-muted);
+		text-decoration: none;
+		transition:
+			background 0.15s ease,
+			color 0.15s ease;
+	}
+
+	.home-about__cat-arrow {
+		width: 0.35rem;
+		height: 0.35rem;
+		flex-shrink: 0;
+		border-right: 1.5px solid currentColor;
+		border-bottom: 1.5px solid currentColor;
+		transform: rotate(-45deg);
+		opacity: 0;
+		transition:
+			opacity 0.15s ease,
+			transform 0.15s ease;
+	}
+
+	.home-about__cat a:hover {
+		background: color-mix(in srgb, var(--magenta) 8%, transparent);
+		color: var(--magenta-soft);
+	}
+
+	.home-about__cat a:hover .home-about__cat-arrow {
+		opacity: 0.9;
+		transform: rotate(-45deg) translate(1px, 1px);
+	}
+
+	@media (max-width: 900px) {
+		.home-about__hero {
+			grid-template-columns: 1fr;
+		}
+
+		.home-about__cats {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
+	}
+
+	@media (max-width: 560px) {
+		.home-about__cats {
+			grid-template-columns: 1fr;
+		}
+
+		.home-about__copy {
+			padding-left: 0.65rem;
+		}
+	}
+</style>

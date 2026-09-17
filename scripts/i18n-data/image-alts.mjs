@@ -1,0 +1,42 @@
+/** Descriptive image alts — Google rejects empty or keyword-only alts. */
+export const DESCRIPTIVE_IMAGE_ALTS = {
+	hero: 'Ark Cheats hero — ESP and aimbot overlay in ARK: Survival Ascended',
+	espWallhack: 'Wallhack outlines showing players and wild dinos through walls',
+	aimbotCombat: 'Soft aim assist overlay during an ARK: Survival Ascended session',
+	squadFight: 'Ark Cheats combat overlay during a squad fight',
+	playerEsp: 'Player ESP boxes and distance readouts in a Tarkov session',
+	headerArt: 'Aimbot view and bone priority controls for Tarkov',
+	cheatsPackage: '2D radar threat overlay for ARK: Survival Ascended',
+	rebootFight: 'Aimbot assist during a Tarkov firefight',
+	battleRoyale: 'Ark Cheats in-session overview for Windows PC',
+	battleRoyaleIsland: 'ESP markers for loot and tribe bases in Tarkov',
+};
+
+/** Page-level image alt by pageId (EN source of truth). */
+export const PAGE_IMAGE_ALTS = {
+	home: 'Ark Cheats homepage hero — ESP and aimbot for ARK: Survival Ascended',
+	'ark-esp': 'Tarkov ESP player boxes and distance readouts in a session',
+	'ark-aimbot': 'Tarkov aimbot and soft aim controls on Windows PC',
+	features: 'Ark Cheats features — ESP, soft aim, and radar screenshots',
+	pricing: 'Ark Cheats store plans for monthly and lifetime licenses',
+	setup: 'Ark Cheats setup guide screenshot for Windows PC',
+	updates: 'Ark Cheats live status after Easy Anti-Cheat and game patches',
+	faq: 'Ark Cheats FAQ — delivery, setup, and update answers',
+	support: 'Ark Cheats support page for license and setup help',
+	undetected: 'Ark Cheats undetected status overview for Windows PC',
+	wallhack: 'Tarkov wallhack visibility through walls in a session',
+	radar: 'Tarkov 2D radar overlay showing nearby threats',
+	eac: 'Ark Cheats maintenance after a Easy Anti-Cheat patch',
+	'cheats-2026': 'Ark Cheats product overview for ARK: Survival Ascended',
+	hacks: 'Ark Cheats product page — ESP, aimbot, and radar',
+	'cheat-download': 'Ark Cheats download and install delivery flow',
+	'mod-menu': 'Ark Cheats in-game menu controls',
+	'soft-aim': 'Tarkov soft aim FOV and smoothness settings',
+	'best-cheats': 'Ark Cheats overview for ARK: Survival Ascended on PC',
+	'aimbot-hack': 'Tarkov aimbot hack controls and bone priority',
+	'esp-hack': 'Tarkov ESP hack boxes and loot markers',
+	'unlock-all': 'Ark Cheats license features overview',
+	privacy: 'Ark Cheats privacy policy page',
+	refund: 'Ark Cheats refund policy page',
+	terms: 'Ark Cheats terms of use page',
+};
