@@ -74,7 +74,10 @@ function resolvePageId(path: string): PageId | undefined {
 const pageId = pageIdProp ?? resolvePageId(canonicalPath);
 const ui = getUi(locale);
 const homeHref = getLocalizedPath('home', locale);
-const resolvedEyebrow = eyebrow ?? ui.product.title;
+const resolvedEyebrow = eyebrow?.trim() ?? '';
+const showEyebrow =
+	Boolean(resolvedEyebrow) &&
+	resolvedEyebrow.toLowerCase() !== heading.trim().toLowerCase();
 
 const normalizedGallery = gallery
 	.map((item) => {
@@ -158,7 +161,7 @@ const useBlurBanner = pageId ? blurBannerPages.has(pageId) : false;
 						<span aria-hidden="true">/</span>
 						<span aria-current="page">{heading}</span>
 					</nav>
-					<p class="banner__eyebrow">{resolvedEyebrow}</p>
+					{showEyebrow ? <p class="banner__eyebrow">{resolvedEyebrow}</p> : null}
 					<h1 class="banner__title">{heading}</h1>
 					<p class="banner__intro" data-edit={introEdit || undefined}>{intro}</p>
 					{
@@ -254,6 +257,7 @@ const useBlurBanner = pageId ? blurBannerPages.has(pageId) : false;
 		height: 100%;
 		object-fit: cover;
 		object-position: center center;
+		filter: brightness(0.52) saturate(0.88);
 	}
 
 	.banner--blur .banner__img {
@@ -276,9 +280,9 @@ const useBlurBanner = pageId ? blurBannerPages.has(pageId) : false;
 		inset: 0;
 		background: linear-gradient(
 			90deg,
-			rgba(8, 9, 10, 0.94) 0%,
-			rgba(8, 9, 10, 0.72) 42%,
-			rgba(8, 9, 10, 0.25) 100%
+			rgba(8, 9, 10, 0.97) 0%,
+			rgba(8, 9, 10, 0.84) 42%,
+			rgba(8, 9, 10, 0.42) 100%
 		);
 	}
 

@@ -7,8 +7,12 @@ import { brandCopy, brandSeo, seoPageTitle } from '../../data/site-core';
 import { seoDescription } from '../../data/brand';
 import { getSelfHreflangAlternates } from '../../data/i18n/routing';
 import { getReviewPath, reviewsBasePath } from '../../data/reviews';
+import { arkImages } from '../../data/ark';
 import { defaultCrawlImageSrc } from '../../data/page-images';
-import { contentSrcSet, productMainSizes } from '../../lib/responsive-images';
+import { contentSrcSet, galleryTileSizes } from '../../lib/responsive-images';
+
+const reviewsHeroAlt = fillBrandTokens('{brand} customer reviews');
+const gameplayAlt = 'Ark Cheats ESP and aimbot gameplay screenshot in ARK: Survival Ascended';
 
 const title = seoPageTitle(brandSeo.reviewsTitle);
 const description = seoDescription(brandSeo.reviewsDescription);
@@ -73,19 +77,34 @@ const extraGraph: Record<string, unknown>[] = [
 				<span aria-current="page">Reviews</span>
 			</nav>
 
-			<figure class="reviews-index__media">
-				<img
-					src={defaultCrawlImageSrc}
-					srcset={contentSrcSet(defaultCrawlImageSrc)}
-					sizes={productMainSizes}
-					alt={fillBrandTokens('{brand} customer reviews')}
-					width="1280"
-					height="720"
-					loading="eager"
-					decoding="async"
-					fetchpriority="high"
-				/>
-			</figure>
+			<div class="reviews-index__media-grid">
+				<figure class="reviews-index__media reviews-index__media--brand">
+					<img
+						src={defaultCrawlImageSrc}
+						srcset={contentSrcSet(defaultCrawlImageSrc)}
+						sizes={galleryTileSizes}
+						alt={reviewsHeroAlt}
+						width="640"
+						height="400"
+						loading="eager"
+						decoding="async"
+						fetchpriority="high"
+					/>
+				</figure>
+				<figure class="reviews-index__media reviews-index__media--gameplay">
+					<img
+						src={arkImages.espWallhack}
+						srcset={contentSrcSet(arkImages.espWallhack)}
+						sizes={galleryTileSizes}
+						alt={gameplayAlt}
+						width="640"
+						height="400"
+						loading="lazy"
+						decoding="async"
+					/>
+					<figcaption class="reviews-index__media-cap">Cheat gameplay</figcaption>
+				</figure>
+			</div>
 
 			<header class="reviews-index__head">
 				<div>
@@ -157,6 +176,13 @@ const extraGraph: Record<string, unknown>[] = [
 		gap: 1.5rem;
 	}
 
+	.reviews-index__media-grid {
+		display: grid;
+		grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+		gap: 0.65rem;
+		max-width: 36rem;
+	}
+
 	.reviews-index__media {
 		margin: 0;
 		border-radius: var(--radius-md, 0.75rem);
@@ -168,9 +194,20 @@ const extraGraph: Record<string, unknown>[] = [
 	.reviews-index__media img {
 		display: block;
 		width: 100%;
-		height: auto;
-		aspect-ratio: 16 / 9;
+		height: 100%;
+		max-height: 9.5rem;
+		aspect-ratio: 16 / 10;
 		object-fit: cover;
+	}
+
+	.reviews-index__media-cap {
+		padding: 0.35rem 0.55rem;
+		font-size: 0.68rem;
+		font-weight: 600;
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		color: var(--ink-faint);
+		background: color-mix(in srgb, var(--bg-elevated) 90%, transparent);
 	}
 
 	.reviews-index__crumbs {
@@ -443,6 +480,15 @@ const extraGraph: Record<string, unknown>[] = [
 	}
 
 	@media (max-width: 680px) {
+		.reviews-index__media-grid {
+			grid-template-columns: 1fr 1fr;
+			max-width: none;
+		}
+
+		.reviews-index__media img {
+			max-height: 7.5rem;
+		}
+
 		.reviews-index__grid {
 			grid-template-columns: 1fr;
 		}

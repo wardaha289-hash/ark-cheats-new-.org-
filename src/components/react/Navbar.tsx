@@ -109,11 +109,17 @@ function NavbarInner({
 						<a
 							key={item.id}
 							href={item.href}
-							className={`site-nav__link${item.active ? ' is-active' : ''}${item.bgImage ? ' has-bg' : ''}`}
+							className={`site-nav__link${item.active ? ' is-active' : ''}${item.bgImage && item.active ? ' has-bg' : ''}`}
 						>
-							{item.bgImage ? (
+							{item.bgImage && item.active ? (
 								<span className="site-nav__bg" aria-hidden="true">
-									<img src={item.bgImage} alt="" loading="lazy" decoding="async" />
+									<img
+										src={item.bgImage}
+										alt=""
+										loading="eager"
+										decoding="async"
+										fetchPriority="high"
+									/>
 								</span>
 							) : null}
 							<span className="site-nav__label">

@@ -123,9 +123,6 @@ const lifetime = productInfo.plans.find((p) => p.id === 'lifetime') ?? productIn
 const showStorePlans = pageId === 'pricing' && locale === 'en';
 
 const eyebrowByPage: Partial<Record<PageId, string>> = {
-	features: ui.nav.features,
-	pricing: ui.nav.pricing,
-	updates: ui.nav.updates,
 	hacks: locale === 'en' ? t('nav.preview') : ui.nav.hacks,
 	'ark-esp': ui.nav.esp,
 	'ark-aimbot': ui.nav.aimbot,
