@@ -76,8 +76,9 @@ function HeroInner({
 	useBrandHero = true,
 }: Props) {
 	const { t } = useTranslation();
-	const title = useBrandHero ? t('hero.title') : t('hero.accent');
-	const subtitle = useBrandHero ? t('hero.subtitle') : t('hero.subtitle');
+	// Brand H1 stays the same in every locale — only subtitle and chips translate.
+	const title = siteName;
+	const subtitle = t('hero.subtitle');
 	const ctaLabel = t('hero.exploreNow');
 	const imageAlt = t('hero.imageAlt', { brand: siteName });
 
@@ -100,7 +101,7 @@ function HeroInner({
 			<div className="shell hero__content">
 				<div className="hero__copy">
 					<h1 className="hero__brand">
-						{useBrandHero ? <span data-edit="name">{title}</span> : title}
+						{useBrandHero ? <span data-edit="name">{title}</span> : <span>{title}</span>}
 					</h1>
 					<p className="hero__lede" data-edit={useBrandHero ? 'heroLede' : undefined}>
 						{subtitle}

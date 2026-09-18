@@ -1,12 +1,25 @@
 ---
-import { forumCategoryLabels, forumThreads, forumsBasePath, getForumThreadPath } from '../data/forums';
-import { forumsLabel } from '../data/site';
+import {
+	getForumCategoryLabel,
+	getForumThreadPath,
+	getForumThreads,
+	getForumsBasePath,
+} from '../data/forums';
+import { defaultLocale, type LocaleCode } from '../data/i18n/locales';
+import { getT } from '../i18n/server';
+
+interface Props {
+	locale?: LocaleCode;
+}
+
+const locale = Astro.props.locale ?? defaultLocale;
+const t = getT(locale);
+const threads = getForumThreads(locale);
+const forumsPath = getForumsBasePath(locale);
 
 const categoryIcons: Record<string, string> = {
-	features:
-		'M4 6h16M4 12h10M4 18h16M8 6v12',
-	setup:
-		'M12 8v4l3 2M21 12a9 9 0 11-18 0 9 9 0 0118 0z',
+	features: 'M4 6h16M4 12h10M4 18h16M8 6v12',
+	setup: 'M12 8v4l3 2M21 12a9 9 0 11-18 0 9 9 0 0118 0z',
 	instructions:
 		'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2',
 };
@@ -14,13 +27,13 @@ const categoryIcons: Record<string, string> = {
 
 <section class="home-forums shell" aria-labelledby="home-forums-title">
 	<header class="home-forums__head">
-		<p class="home-forums__eyebrow">{forumsLabel}</p>
-		<h2 id="home-forums-title">Setup, Features &amp; Configuration</h2>
+		<p class="home-forums__eyebrow">{t('nav.forums')}</p>
+		<h2 id="home-forums-title">{t('forums.h1')}</h2>
 	</header>
 
 	<div class="home-forums__grid">
 		{
-			forumThreads.map((thread) => (
+			threads.slice(0, 3).map((thread) => (
 				<article class="home-forums__card">
 					<div class="home-forums__card-top">
 						<span class="home-forums__cat-icon" aria-hidden="true">
@@ -34,14 +47,14 @@ const categoryIcons: Record<string, string> = {
 								/>
 							</svg>
 						</span>
-						<span class="home-forums__cat">{forumCategoryLabels[thread.category]}</span>
+						<span class="home-forums__cat">{getForumCategoryLabel(thread.category, locale)}</span>
 					</div>
 					<h3>
-						<a href={getForumThreadPath(thread.slug)}>{thread.title}</a>
+						<a href={getForumThreadPath(thread.slug, locale)}>{thread.title}</a>
 					</h3>
 					<p>{thread.excerpt}</p>
-					<a class="home-forums__read" href={getForumThreadPath(thread.slug)}>
-						Read thread →
+					<a class="home-forums__read" href={getForumThreadPath(thread.slug, locale)}>
+						{t('forums.readThread')}
 					</a>
 				</article>
 			))
@@ -49,7 +62,7 @@ const categoryIcons: Record<string, string> = {
 	</div>
 
 	<p class="home-forums__all">
-		<a href={forumsBasePath}>View all forum threads →</a>
+		<a href={forumsPath}>{t('forums.viewAll')}</a>
 	</p>
 </section>
 

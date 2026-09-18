@@ -1,38 +1,83 @@
 ---
-import HeroApp from './react/Hero';
 import type { LocaleCode } from '../data/i18n/locales';
 import { defaultLocale } from '../data/i18n/locales';
 import { getLocalizedPath } from '../data/i18n/routing';
 import { siteConfig } from '../data/site';
 import { heroWidth, heroHeight, heroSrcSet, heroSizes, heroSrc } from '../lib/responsive-images';
+import { getT } from '../i18n/server';
 
 interface Props {
 	locale?: LocaleCode;
 }
 
 const locale = Astro.props.locale ?? defaultLocale;
+const t = getT(locale);
+const featuresHref = getLocalizedPath('features', locale);
+const chipKeys = ['chipEsp', 'chipAim', 'chipRadar', 'chipUpdates'] as const;
 ---
 
-<HeroApp
-	client:load
-	locale={locale}
-	siteName={siteConfig.name}
-	featuresHref={getLocalizedPath('features', locale)}
-	heroSrc={heroSrc}
-	heroSrcSet={heroSrcSet}
-	heroSizes={heroSizes}
-	heroWidth={heroWidth}
-	heroHeight={heroHeight}
-	useBrandHero={locale === 'en'}
-/>
+<section class="hero" aria-label={siteConfig.name}>
+	<div class="hero__media">
+		<img
+			src={heroSrc}
+			srcset={heroSrcSet}
+			sizes={heroSizes}
+			alt={t('hero.imageAlt', { brand: siteConfig.name })}
+			width={heroWidth}
+			height={heroHeight}
+			fetchpriority="high"
+			loading="eager"
+			decoding="async"
+		/>
+	</div>
+	<div class="hero__veil" aria-hidden="true"></div>
+	<div class="shell hero__content">
+		<div class="hero__copy">
+			<h1 class="hero__brand">
+				<span data-edit="name">{siteConfig.name}</span>
+			</h1>
+			<p class="hero__lede" data-edit="heroLede">{t('hero.subtitle')}</p>
+			<div class="hero__actions">
+				<a class="hero__buy" href={featuresHref}>
+					<svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+						<path
+							d="M5 12h14M13 6l6 6-6 6"
+							stroke="currentColor"
+							stroke-width="1.7"
+							stroke-linecap="round"
+							stroke-linejoin="round"></path>
+					</svg>
+					<span class="hero__buy-label">{t('hero.exploreNow')}</span>
+				</a>
+			</div>
+			<ul class="hero__features">
+				{
+					chipKeys.map((key) => (
+						<li>
+							<svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+								<path
+									d="M5 13.2l4.2 4.2L19 7.6"
+									stroke="currentColor"
+									stroke-width="1.8"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+								/>
+							</svg>
+							<span data-edit={key}>{t(`hero.${key}`)}</span>
+						</li>
+					))
+				}
+			</ul>
+		</div>
+	</div>
+</section>
 
 <style is:global>
 	.hero {
 		--hero-pad-y: clamp(1rem, 2vw, 1.75rem);
 		--hero-stack: clamp(0.5rem, 1.1vw, 0.75rem);
 		/*
-		 * Bar is a bit shorter than the native 1024/409 (~2.5:1) art.
-		 * Image stays undistorted via object-fit: cover (crops edges, no squash).
+		 * Bar is a bit shorter than native art (~2.5:1). Image stays undistorted via object-fit: cover.
 		 */
 		--hero-ratio: 3.15 / 1;
 		position: relative;

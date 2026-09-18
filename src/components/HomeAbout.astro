@@ -1,53 +1,78 @@
 ---
+import { getLocalizedPath, type PageId } from '../data/i18n/routing';
+import { defaultLocale, type LocaleCode } from '../data/i18n/locales';
+import { getForumsBasePath } from '../data/forums';
+import { reviewsBasePath } from '../data/reviews';
+import { getT } from '../i18n/server';
+
+interface Props {
+	locale?: LocaleCode;
+}
+
+const locale = Astro.props.locale ?? defaultLocale;
+const t = getT(locale);
 const previewSrc = '/images/ark-cheats-wallhack-480w.webp';
 
-const categories = [
+type CatLink = { href: string; labelKey: string };
+
+function link(pageId: PageId, labelKey: string): CatLink {
+	return { href: getLocalizedPath(pageId, locale), labelKey };
+}
+type Category = {
+	id: string;
+	titleKey: string;
+	hintKey: string;
+	tone: string;
+	links: CatLink[];
+};
+
+const categories: Category[] = [
 	{
 		id: 'features',
-		title: 'Features',
-		hint: 'What is included',
+		titleKey: 'homeSeo.catFeatures',
+		hintKey: 'homeSeo.catFeaturesHint',
 		tone: 'violet',
 		links: [
-			{ href: '/features/', label: 'All features' },
-			{ href: '/ark-esp/', label: 'Player ESP' },
-			{ href: '/ark-aimbot/', label: 'Aimbot' },
-			{ href: '/ark-radar-hack/', label: 'Item ESP' },
+			link('features', 'homeSeo.linkAllFeatures'),
+			link('ark-esp', 'homeSeo.linkEsp'),
+			link('ark-aimbot', 'homeSeo.linkAimbot'),
+			link('radar', 'homeSeo.linkRadar'),
 		],
 	},
 	{
 		id: 'status',
-		title: 'Status',
-		hint: 'Before you play',
+		titleKey: 'homeSeo.catStatus',
+		hintKey: 'homeSeo.catStatusHint',
 		tone: 'violet',
 		links: [
-			{ href: '/updates/', label: 'Live status' },
-			{ href: '/ark-cheats/', label: 'Undetected' },
-			{ href: '/setup/', label: 'Setup' },
-			{ href: '/faq/', label: 'FAQ' },
+			link('updates', 'homeSeo.linkLiveStatus'),
+			link('hacks', 'homeSeo.linkUndetected'),
+			link('setup', 'homeSeo.linkSetup'),
+			link('faq', 'homeSeo.linkFaq'),
 		],
 	},
 	{
 		id: 'store',
-		title: 'Store',
-		hint: 'Buy & plans',
+		titleKey: 'homeSeo.catStore',
+		hintKey: 'homeSeo.catStoreHint',
 		tone: 'violet',
 		links: [
-			{ href: '/pricing/', label: 'Buy now' },
-			{ href: '/pricing/', label: 'Plans' },
-			{ href: '/reviews/', label: 'Reviews' },
-			{ href: '/ark-cheats/', label: 'Preview' },
+			link('pricing', 'nav.buyNow'),
+			link('pricing', 'homeSeo.linkPlans'),
+			{ href: reviewsBasePath, labelKey: 'homeSeo.linkReviews' },
+			link('hacks', 'nav.preview'),
 		],
 	},
 	{
 		id: 'help',
-		title: 'Help',
-		hint: 'Need a hand',
+		titleKey: 'homeSeo.catHelp',
+		hintKey: 'homeSeo.catHelpHint',
 		tone: 'violet',
 		links: [
-			{ href: '/support/', label: 'Support' },
-			{ href: '/setup/', label: 'Setup guide' },
-			{ href: '/forums/', label: 'Forums' },
-			{ href: '/faq/', label: 'FAQ' },
+			link('support', 'homeSeo.linkSupport'),
+			link('setup', 'homeSeo.linkSetupGuide'),
+			{ href: getForumsBasePath(locale), labelKey: 'homeSeo.linkForums' },
+			link('faq', 'homeSeo.linkFaq'),
 		],
 	},
 ];
@@ -56,43 +81,44 @@ const categories = [
 <section class="home-about shell" aria-labelledby="home-about-title">
 	<div class="home-about__hero">
 		<div class="home-about__copy">
-			<p class="home-about__eyebrow">Guides</p>
-			<h2 id="home-about-title">Browse by category</h2>
-			<p class="home-about__lede">
-				Player ESP, dino ESP, item ESP, and aimbot in one Windows PC license — with Easy Anti-Cheat updates after
-				patches.
-			</p>
+			<p class="home-about__eyebrow">{t('homeSeo.eyebrow')}</p>
+			<h2 id="home-about-title">{t('homeSeo.title')}</h2>
+			<p class="home-about__lede">{t('home.aboutLede')}</p>
 			<p class="home-about__links">
-				Browse the <a href="/features/">Ark Cheats features</a>, <a href="/ark-esp/">player ESP guide</a>,
-				<a href="/ark-aimbot/">aimbot controls</a>, and <a href="/updates/">undetected status</a>.
+				{t('home.aboutP2Before')}{' '}
+				<a href={getLocalizedPath('hacks', locale)}>{t('home.aboutPillar')}</a>{t('home.aboutP2Mid')}
+				<a href={getLocalizedPath('ark-esp', locale)}>{t('home.aboutEsp')}</a>{t('home.aboutP2Mid')}
+				<a href={getLocalizedPath('ark-aimbot', locale)}>{t('home.aboutAimbot')}</a>{t('home.aboutP2Or')}
+				<a href={getLocalizedPath('updates', locale)}>{t('home.aboutUndetected')}</a>
+				{t('home.aboutP2After')}
 			</p>
 		</div>
 		<figure class="home-about__media">
 			<img
 				src={previewSrc}
-				alt="Player ESP wallhack preview in ARK: Survival Ascended"
+				alt={t('images.espWallhack')}
 				width="480"
 				height="300"
 				loading="lazy"
 				decoding="async"
 			/>
-			<figcaption class="home-about__tag">Cheat preview</figcaption>
+			<figcaption class="home-about__tag">{t('nav.preview')}</figcaption>
 		</figure>
 	</div>
 
 	<div class="home-about__cats">
 		{
 			categories.map((cat) => (
-				<nav class={`home-about__cat home-about__cat--${cat.tone}`} aria-label={cat.title}>
+				<nav class={`home-about__cat home-about__cat--${cat.tone}`} aria-label={t(cat.titleKey)}>
 					<header class="home-about__cat-head">
-						<h3>{cat.title}</h3>
-						<p>{cat.hint}</p>
+						<h3>{t(cat.titleKey)}</h3>
+						<p>{t(cat.hintKey)}</p>
 					</header>
 					<ul>
 						{cat.links.map((link) => (
 							<li>
 								<a href={link.href}>
-									<span>{link.label}</span>
+									<span>{t(link.labelKey)}</span>
 									<span class="home-about__cat-arrow" aria-hidden="true" />
 								</a>
 							</li>

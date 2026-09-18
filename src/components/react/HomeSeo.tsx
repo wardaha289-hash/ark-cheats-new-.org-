@@ -3,56 +3,23 @@ import I18nProvider from './I18nProvider';
 
 type FaqItem = { slug: string; question: string; answer: string; href: string };
 
+type CategoryLink = { href: string; labelKey: string };
+
+type Category = {
+	titleKey: string;
+	hintKey: string;
+	links: CategoryLink[];
+};
+
 type Props = {
 	locale: string;
 	faqs: FaqItem[];
+	categories: Category[];
+	faqIndexHref: string;
 };
 
-function HomeSeoInner({ faqs }: Props) {
+function HomeSeoInner({ faqs, categories, faqIndexHref }: Props) {
 	const { t } = useTranslation();
-
-	const categories = [
-		{
-			titleKey: 'homeSeo.catFeatures',
-			hintKey: 'homeSeo.catFeaturesHint',
-			links: [
-				{ href: '/features/', labelKey: 'homeSeo.linkAllFeatures' },
-				{ href: '/ark-esp/', labelKey: 'homeSeo.linkEsp' },
-				{ href: '/ark-aimbot/', labelKey: 'homeSeo.linkAimbot' },
-				{ href: '/ark-radar-hack/', labelKey: 'homeSeo.linkRadar' },
-			],
-		},
-		{
-			titleKey: 'homeSeo.catStatus',
-			hintKey: 'homeSeo.catStatusHint',
-			links: [
-				{ href: '/updates/', labelKey: 'homeSeo.linkLiveStatus' },
-				{ href: '/ark-cheats/', labelKey: 'homeSeo.linkUndetected' },
-				{ href: '/setup/', labelKey: 'homeSeo.linkSetup' },
-				{ href: '/faq/', labelKey: 'homeSeo.linkFaq' },
-			],
-		},
-		{
-			titleKey: 'homeSeo.catStore',
-			hintKey: 'homeSeo.catStoreHint',
-			links: [
-				{ href: '/pricing/', labelKey: 'homeSeo.linkPlans' },
-				{ href: '/reviews/', labelKey: 'homeSeo.linkReviews' },
-				{ href: '/ark-cheats/', labelKey: 'homeSeo.linkTarkovCheats' },
-				{ href: '/features/', labelKey: 'homeSeo.linkAllFeatures' },
-			],
-		},
-		{
-			titleKey: 'homeSeo.catHelp',
-			hintKey: 'homeSeo.catHelpHint',
-			links: [
-				{ href: '/support/', labelKey: 'homeSeo.linkSupport' },
-				{ href: '/setup/', labelKey: 'homeSeo.linkSetupGuide' },
-				{ href: '/forums/', labelKey: 'homeSeo.linkForums' },
-				{ href: '/refund-policy/', labelKey: 'homeSeo.linkRefunds' },
-			],
-		},
-	];
 
 	return (
 		<section className="home-seo shell" aria-labelledby="home-seo-title">
@@ -92,7 +59,7 @@ function HomeSeoInner({ faqs }: Props) {
 						<h3 id="home-faq-title">{t('homeSeo.faqTitle')}</h3>
 						<p className="home-seo__faq-lede">{t('homeSeo.faqLede')}</p>
 					</div>
-					<a className="home-seo__faq-link" href="/faq/">
+					<a className="home-seo__faq-link" href={faqIndexHref}>
 						{t('homeSeo.allAnswers')}
 					</a>
 				</header>

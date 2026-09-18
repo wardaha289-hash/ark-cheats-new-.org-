@@ -3,21 +3,80 @@ import HomeSeoApp from './react/HomeSeo';
 import { homeFaqs } from '../data/site';
 import { getFaqPath } from '../data/faq';
 import { defaultLocale, type LocaleCode } from '../data/i18n/locales';
+import { getLocalizedPath, type PageId } from '../data/i18n/routing';
+import { getForumsBasePath } from '../data/forums';
+import { reviewsBasePath } from '../data/reviews';
 
 interface Props {
 	locale?: LocaleCode;
 }
 
 const locale = Astro.props.locale ?? defaultLocale;
+
+function link(pageId: PageId, labelKey: string) {
+	return { href: getLocalizedPath(pageId, locale), labelKey };
+}
+
+const categories = [
+	{
+		titleKey: 'homeSeo.catFeatures',
+		hintKey: 'homeSeo.catFeaturesHint',
+		links: [
+			link('features', 'homeSeo.linkAllFeatures'),
+			link('ark-esp', 'homeSeo.linkEsp'),
+			link('ark-aimbot', 'homeSeo.linkAimbot'),
+			link('radar', 'homeSeo.linkRadar'),
+		],
+	},
+	{
+		titleKey: 'homeSeo.catStatus',
+		hintKey: 'homeSeo.catStatusHint',
+		links: [
+			link('updates', 'homeSeo.linkLiveStatus'),
+			link('hacks', 'homeSeo.linkUndetected'),
+			link('setup', 'homeSeo.linkSetup'),
+			link('faq', 'homeSeo.linkFaq'),
+		],
+	},
+	{
+		titleKey: 'homeSeo.catStore',
+		hintKey: 'homeSeo.catStoreHint',
+		links: [
+			link('pricing', 'homeSeo.linkPlans'),
+			{ href: reviewsBasePath, labelKey: 'homeSeo.linkReviews' },
+			link('hacks', 'homeSeo.linkTarkovCheats'),
+			link('features', 'homeSeo.linkAllFeatures'),
+		],
+	},
+	{
+		titleKey: 'homeSeo.catHelp',
+		hintKey: 'homeSeo.catHelpHint',
+		links: [
+			link('support', 'homeSeo.linkSupport'),
+			link('setup', 'homeSeo.linkSetupGuide'),
+			{ href: getForumsBasePath(locale), labelKey: 'homeSeo.linkForums' },
+			link('refund', 'homeSeo.linkRefunds'),
+		],
+	},
+];
+
 const faqs = homeFaqs.map((item) => ({
 	slug: item.slug,
 	question: item.question,
 	answer: item.answer,
 	href: getFaqPath(item.slug),
 }));
+
+const faqIndexHref = getLocalizedPath('faq', locale);
 ---
 
-<HomeSeoApp client:visible locale={locale} faqs={faqs} />
+<HomeSeoApp
+	client:visible
+	locale={locale}
+	faqs={faqs}
+	categories={categories}
+	faqIndexHref={faqIndexHref}
+/>
 
 <style is:global>
 	.home-seo {

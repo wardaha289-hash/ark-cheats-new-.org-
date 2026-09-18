@@ -38,8 +38,8 @@ export function contentSrcSet(baseSrc: string): string | undefined {
 }
 
 /**
- * Homepage / banner hero — compressed WebP ladder (not the 375KB+ PNG master).
- * Native art ~1024×409 (~2.5:1).
+ * Homepage / banner hero — compressed WebP ladder (not the full JPG master).
+ * Display bar uses ~3.15:1; source art may differ and is cropped with object-fit: cover.
  */
 export const heroResponsive: ResponsiveWidth[] = [
 	{ src: '/images/ark-cheats-hero-640w.webp', width: 640 },
@@ -57,9 +57,9 @@ export const heroSizes = '100vw';
 export const heroPreloadSrc = heroSrc;
 export const heroMimeType = 'image/webp';
 
-/** Exact native dimensions (no zoom crop). */
+/** Intrinsic dimensions for the hero image file (layout bar ratio is set in CSS). */
 export const heroWidth = 1024;
-export const heroHeight = 409;
+export const heroHeight = 512;
 
 /** Responsive widths for below-fold content images. */
 export const contentWidths = [480, 960] as const;
